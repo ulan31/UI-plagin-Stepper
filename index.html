@@ -18,6 +18,7 @@
         </div>
         <ul class="steps-list">
           <li v-for="(step,  index) in steps"
+              :key="index"
               class="steps-item"
               :class="{
                 active: activeIndex === index,
