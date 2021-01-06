@@ -6,6 +6,7 @@ const App = {
   data() {
     return {
       activeIndex: 0, // то, что позволяет определить текущий активный шаг
+      isFinish: false,
       steps: [
         {
           title: 'Основы',
@@ -34,53 +35,37 @@ const App = {
     prev() {
       // когда нажимаем кнопку назад
       this.activeIndex--
-      if (this.lastStep) {
-        this.$refs.lastBtn.innerHTML = 'Закончить'
-      } else {
-        this.$refs.lastBtn.innerHTML = 'Вперед'
-      }
-
     },
     reset() {
       // начать заново
       this.activeIndex = 0
-      this.$refs.resetBtn.style.display = 'none'
-      this.$refs.prevBtn.style.display = 'inline-block'
+      this.isFinish = false
     },
     nextOfFinish() {
       // кнопка вперед или закончить
-      if (this.activeIndex <= this.steps.length - 1) {
+      if (!this.isLastStep) {
         this.activeIndex++
+      } else {
+        this.isFinish = true
       }
     },
     setActive(idx) {
       // когда нажимаем на определенный шаг
-      this.activeIndex = idx
-
+      if (!this.isFinish) {
+        this.activeIndex = idx
+      }
     },
-    finish() {
-      this.$refs.resetBtn.style.display = 'block'
-      this.$refs.prevBtn.style.display = 'none'
-      this.$refs.finishBtn.style.display = 'none'
-    }
   },
   computed: {
     // тут стоит определить несколько свойств:
     // 1. текущий выбранный шаг
     // 2. выключена ли кнопка назад
     // 3. находимся ли мы на последнем шаге
-
-    isPrev() {
-      if (this.activeIndex === 0) {
-        return false
-      }
-      return true
+    isFirstStep() {
+      return this.activeIndex === 0
     },
-    lastStep() {
-      if (this.activeIndex === this.steps.length - 1) {
-        return true
-      }
-      return false
+    isLastStep() {
+      return this.activeIndex === this.steps.length - 1
     }
   }
 }

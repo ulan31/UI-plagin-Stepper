@@ -28,11 +28,14 @@
             <span @click="setActive(index)">{{ index + 1 }}</span> {{ step.title }}
           </li>
         </ul>
-        <div>
-          <button @click="prev" :disabled="!isPrev" ref="prevBtn" class="btn">Назад</button>
-          <button v-if="!lastStep" @click="nextOfFinish" ref="lastBtn" class="btn primary">Вперед</button>
-          <button v-else @click="finish" ref="finishBtn" class="btn primary">Закончить</button>
-          <button @click="reset" ref="resetBtn" style="display: none" class="btn">Начать заного</button>
+        <div v-if="!isFinish">
+          <button @click="prev" :disabled="isFirstStep" class="btn">Назад</button>
+          <button @click="nextOfFinish" class="btn primary">
+            {{ isLastStep ? 'Закончить' : 'Вперед' }}
+          </button>
+        </div>
+        <div v-else>
+          <button @click="reset" class="btn">Начать заного</button>
         </div>
       </div>
     </div>
